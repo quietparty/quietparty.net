@@ -4,7 +4,7 @@ import {defineCollection, z, type SchemaContext} from "astro:content"
 export const songSchema = (context: SchemaContext) =>
 	z.object({
 		art: context.image().optional(),
-		music: z.string(),
+		music: z.union([z.string(), z.record(z.string())]),
 	})
 
 export const attachmentSchema = z.object({
@@ -25,5 +25,7 @@ const blog = defineCollection({
 			attachments: z.array(attachmentSchema).optional(),
 		}),
 })
+
+const presets = defineCollection({})
 
 export const collections = {blog}

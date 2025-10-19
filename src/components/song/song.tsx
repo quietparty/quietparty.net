@@ -1,5 +1,5 @@
 import type {CollectionEntry} from "astro:content"
-import {createEffect, createSignal, For, onMount} from "solid-js"
+import {createEffect, createSignal, Show, onMount, For} from "solid-js"
 import "./song.css"
 import {Slider} from "@kobalte/core/slider"
 import {createMutable} from "solid-js/store"
@@ -25,10 +25,10 @@ function Playbar(
 		<Slider
 			onChange={values => {
 				props.setTime(values[0])
-				console.log(values[0], "set")
+				//console.log(values[0], "set")
 			}}
 			onChangeEnd={values => {
-				console.log(values[0])
+				//console.log(values[0])
 			}}
 			class="song-playbar"
 			minValue={0}
@@ -70,23 +70,37 @@ export default function Song(
 
 	return (
 		<article class="song">
-			<figure>{props.art ? <img src={props.art.src} /> : <div />}</figure>
+			{props.art && (
+				<figure class="song-art">
+					{props.art ? (
+						<img
+							src={props.art.src}
+							height={props.art.height}
+							width={props.art.width}
+						/>
+					) : (
+						<div />
+					)}
+				</figure>
+			)}
 			<audio
 				class="song-player song-player--audio"
 				controls={!enhance()}
-				src={props.music}
+				src={typeof props.music == "string" ? props.music : undefined}
 				oncanplay={() => (state.canplay = true)}
 				onseeking={() => (state.seeking = true)}
 				onseeked={() => (state.seeking = false)}
-				ontimeupdate={() => {
-					console.log(state.seeking)
-					setTime(audio.currentTime)
-				}}
+				ontimeupdate={() => setTime(audio.currentTime)}
 				onplaying={() => (state.paused = false)}
 				onpause={() => (state.paused = true)}
 				ondurationchange={() => (state.duration = audio.duration)}
-				ref={audio}
-			/>
+				ref={audio}>
+				<Show when={typeof props.music != "string"}>
+					<For each={Object.entries(props.music)}>
+						{([type, src]) => <source type={type} src={src} />}
+					</For>
+				</Show>
+			</audio>
 			<Show when={enhance()}>
 				<div class="song-player song-player--pretty">
 					<div>

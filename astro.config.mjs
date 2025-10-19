@@ -6,6 +6,8 @@ import sitemap from "@astrojs/sitemap"
 import solidJs from "@astrojs/solid-js"
 import netlify from "@astrojs/netlify"
 
+import tsconfigPaths from "vite-tsconfig-paths"
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://quietparty.net",
@@ -13,5 +15,9 @@ export default defineConfig({
 	adapter: netlify(),
 	experimental: {
 		contentIntellisense: true,
+	},
+	vite: {
+		assetsInclude: ["**/*.zip"],
+		plugins: [tsconfigPaths()],
 	},
 })

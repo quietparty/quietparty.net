@@ -1,0 +1,125 @@
+---
+import BaseHead from "../../components/base-head.astro"
+import PageHeader from "../../components/page-header.astro"
+import Song from "../../components/song/song.tsx"
+import sections from "./sections.ts"
+---
+
+<!doctype html>
+<html lang="en-CA" class="page--op-xy">
+	<BaseHead
+		title="op-xy presets"
+		description="presets for the OP-XY synthesizer"
+	/>
+
+	<style>
+		.page--op-xy {
+			background: black;
+			color: #ccc;
+			font-weight: 200;
+			h1,
+			h2,
+			h3,
+			h4 {
+				font-weight: 300;
+				color: #ddd;
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+
+			a {
+				color: #fff;
+			}
+
+			main {
+				font-size: 2rem;
+				max-width: 50ch;
+				padding: 0.5rem;
+				margin: auto;
+			}
+
+			.preset-section {
+				.preset {
+					margin-block: 2rem;
+					border: 1px solid #333;
+					padding: 1rem;
+					.download {
+						background: #ddd;
+						color: black;
+						display: inline-block;
+						text-decoration: none;
+						text-align: center;
+						padding: 0 1em;
+						font-size: 0.9em;
+						margin: auto;
+						font-weight: 300;
+						&:hover {
+							background: #fff;
+						}
+					}
+
+					p {
+						margin-block: 0.75rem;
+					}
+				}
+				.preset-preview {
+					margin: 0;
+					font-size: 0.8em;
+					audio {
+						width: 100%;
+					}
+					.preset-preview-caption {
+						color: #888;
+						font-size: 0.8em;
+						font-weight: 300;
+					}
+
+					.song {
+						margin-block: 1rem;
+						background: #222;
+						border: 1px solid #111;
+					}
+				}
+			}
+		}
+	</style>
+
+	<PageHeader />
+	<main>
+		<h1>op-xy presets</h1>
+
+		<p>
+			when you connect your op-xy via mtp, there'll be a folder called
+			"presets". make a directory in there called "quiet party" and unzip these
+			downloads into it to install the preset
+		</p>
+
+		{
+			sections.map(({title, description, presets}) => (
+				<section class="preset-section">
+					<h2>{title}</h2>
+					{description && <p>{description}</p>}
+
+					{presets.map(preset => (
+						<article class="preset">
+							<h3>{preset.title} </h3>
+							{preset.previews.map(preview => (
+								<figure class="preset-preview">
+									<Song
+										music={preview.music}
+										art={"art" in preview ? preview.art : undefined}
+										client:load
+									/>
+								</figure>
+							))}
+							<div set:html={preset.description} />
+							<a class="download" href={preset.download}>
+								download {preset.title}.zip
+							</a>
+						</article>
+					))}
+				</section>
+			))
+		}
+	</main>
+</html>
