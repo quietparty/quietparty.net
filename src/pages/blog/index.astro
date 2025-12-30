@@ -2,9 +2,9 @@
 import {PAGE_SIZE} from "../../consts.ts"
 import {getCollection} from "astro:content"
 
-const length = (await getCollection("blog")).sort(
-	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-).length
+const length = (await getCollection("blog"))
+	.filter(entry => (import.meta.env.PROD ? !entry.data.draft : true))
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).length
 const latest = Math.ceil(length / PAGE_SIZE)
 return Astro.rewrite(`/blog/${latest}`)
 ---

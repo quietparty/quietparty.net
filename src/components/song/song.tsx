@@ -97,8 +97,18 @@ export default function Song(
 				ref={audio}>
 				<Show when={typeof props.music != "string"}>
 					<For each={Object.entries(props.music)}>
-						{([type, src]) => <source type={type} src={src} />}
+						{([type, src]) => (
+							<>
+								<p>
+									<a href={src}>download {src}</a>
+								</p>
+								<source type={type} src={src} />
+							</>
+						)}
 					</For>
+				</Show>
+				<Show when={typeof props.music == "string"}>
+					<a href={props.music as string}>download {props.music as string}</a>
 				</Show>
 			</audio>
 			<Show when={enhance()}>

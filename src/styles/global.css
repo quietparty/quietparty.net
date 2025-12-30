@@ -7,6 +7,7 @@
 :root {
 	--family-text: Jost, "Jost*", Futura, sans-serif;
 	--family-mono: "Iosevka QP", "Iosevka", monospace;
+	background: black;
 }
 
 @font-face {
@@ -70,13 +71,19 @@ html,
 body {
 	font-family: var(--family-text);
 	margin: 0;
+	overscroll-behavior: none;
 }
 
 code {
 	font-family: var(--family-mono);
 }
 
+strong {
+	font-weight: 500;
+}
+
 .space-layout {
+	background-color: black;
 	background: url(../assets/space.webp) black;
 	color: white;
 	font-size: 1.7rem;
@@ -163,4 +170,13 @@ html {
 
 img {
 	image-rendering: pixelated;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 400;
 }

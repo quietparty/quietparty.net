@@ -9,9 +9,9 @@ import Pagination from "../../components/pagination.astro"
 
 export const getStaticPaths = (async () => {
 	return paginateNaturally(
-		(await getCollection("blog")).sort(
-			(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-		)
+		(await getCollection("blog"))
+			.filter(entry => (import.meta.env.PROD ? !entry.data.draft : true))
+			.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 	)
 }) satisfies GetStaticPaths
 ---

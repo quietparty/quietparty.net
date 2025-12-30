@@ -23,6 +23,7 @@ const blog = defineCollection({
 			updated: z.coerce.date().optional(),
 			song: songSchema(context).optional(),
 			attachments: z.array(attachmentSchema).optional(),
+			draft: z.boolean().optional(),
 		}),
 })
 

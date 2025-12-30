@@ -5,6 +5,7 @@ date: 2025-01-06
 song:
   art: ./beingthere2.jpg
   music: /music/being-there.flac
+draft: true
 ---
 
 wip from op-1 of a track with some nice words.
